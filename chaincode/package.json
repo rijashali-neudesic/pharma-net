@@ -1,0 +1,21 @@
+{
+  "name": "pharma-net-chaincode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "fabric-chaincode-node start --peer.address peer0.manufacturer.pharma-network.com:7053 --chaincode-id-name pharmanet:1.1",
+    "start-dev-dist": "fabric-chaincode-node start --peer.address peer0.distributor.pharma-network.com:9053 --chaincode-id-name pharmanet:1.1",
+    "start-dev-trans": "fabric-chaincode-node start --peer.address peer0.transporter.pharma-network.com:15053 --chaincode-id-name pharmanet:1.1",
+    "start-dev-retail": "fabric-chaincode-node start --peer.address peer0.retailer.pharma-network.com:11053 --chaincode-id-name pharmanet:1.1",
+    "start": "fabric-chaincode-node start"
+  },
+  "author": "Rijash Ali",
+  "license": "ISC",
+  "dependencies": {
+    "fabric-contract-api": "^2.5.4",
+    "fabric-shim": "^2.5.4",
+    "moment": "^2.29.4"
+  }
+}

@@ -1,0 +1,313 @@
+Organizations:
+  - &OrdererOrg
+    Name: Orderer
+    ID: OrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/pharma-network.com/msp
+    # Policices defined the set of policies at this level of config tree
+    # For organization poilicies, their canonical path is usually
+    # /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        # ? Rule: "OR('OrdererMSP.member')" as per the reference project
+        Rule: "OR('OrdererMSP.admin')"
+    # ? OrdererEndpoints has not been included in reference project
+    OrdererEndpoints:
+      - orderer.pharma-network.com:7050
+
+  - &manufacturer
+    Name: manufacturerMSP
+    ID: manufacturerMSP
+    MSPDir: ../organizations/peerOrganizations/manufacturer.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('manufacturerMSP.admin', 'manufacturerMSP.peer', 'manufacturerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('manufacturerMSP.admin', 'manufacturerMSP.peer', 'manufacturerMSP.client')"
+      Admins:
+        Type: Signature
+        # Rule: "OR('manufacturerMSP.admin', 'manufacturerMSP.peer', 'manufacturerMSP.client')" as per ref_project
+        Rule: "OR('manufacturerMSP.admin')"
+      # Endorsement has not been mentioned in ref_project
+      # Endorsement:
+      #   Type: Signature
+      #   Rule: "OR('manufacturerMSP.peer')"
+    # Anchor peer has not been mentioned in lecture
+    # AnchorPeers:
+    #   - Host: peer0.manufacturer.pharma-network.com
+    #     Port: 7051
+
+  - &distributor
+    Name: distributorMSP
+    ID: distributorMSP
+    MSPDir: ../organizations/peerOrganizations/distributor.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')"
+      Admins:
+        Type: Signature
+        # Rule: "OR('distributorMSP.admin', 'distributorMSP.peer', 'distributorMSP.client')" as per ref_project
+        Rule: "OR('distributorMSP.admin')"
+    # Endorsement has not been mentioned in ref_project
+    # Endorsement:
+    #   Type: Signature
+    #   Rule: "OR('distributorMSP.peer')"
+    # Anchor peer has not been mentioned in lecture
+    # AnchorPeers:
+    #   - Host: peer0.distributor.pharma-network.com
+    #     Port: 9051
+
+  - &retailer
+    Name: retailerMSP
+    ID: retailerMSP
+    MSPDir: ../organizations/peerOrganizations/retailer.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')"
+      Admins:
+        Type: Signature
+        # Rule: Rule: "OR('retailerMSP.admin', 'retailerMSP.peer', 'retailerMSP.client')" as per ref_project
+        Rule: "OR('retailerMSP.admin')"
+    # Endorsement has not been mentioned in ref_project
+    # Endorsement:
+    #   Type: Signature
+    #   Rule: "OR('retailerMSP.peer')"
+    # Anchor peer has not been mentioned in lecture
+    # AnchorPeers:
+    #   - Host: peer0.retailer.pharma-network.com
+    #     Port: 11051
+
+  - &consumer
+    Name: consumerMSP
+    ID: consumerMSP
+    MSPDir: ../organizations/peerOrganizations/consumer.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')"
+      Admins:
+        Type: Signature
+        # Rule: Rule: "OR('consumerMSP.admin', 'consumerMSP.peer', 'consumerMSP.client')" as per ref_project
+        Rule: "OR('consumerMSP.admin')"
+    # Endorsement has not been mentioned in ref_project
+    # Endorsement:
+    #   Type: Signature
+    #   Rule: "OR('consumerMSP.peer')"
+    # Anchor peer has not been mentioned in lecture
+    # AnchorPeers:
+    #   - Host: peer0.consumer.pharma-network.com
+    #     Port: 13051
+
+  - &transporter
+    Name: transporterMSP
+    ID: transporterMSP
+    MSPDir: ../organizations/peerOrganizations/transporter.pharma-network.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')"
+      Admins:
+        Type: Signature
+        # Rule: Rule: "OR('transporterMSP.admin', 'transporterMSP.peer', 'transporterMSP.client')" as per ref_project
+        Rule: "OR('transporterMSP.admin')"
+    # Endorsement has not been mentioned in ref_project
+    # Endorsement:
+    #   Type: Signature
+    #   Rule: "OR('transporterMSP.peer')"
+    # Anchor peer has not been mentioned in lecture
+    # AnchorPeers:
+    #   - Host: peer0.transporter.pharma-network.com
+    #     Port: 15051
+
+#Capabilities
+# Defines the least versions of the fabric binary images supported by each entities
+Capabilities:
+  Channel: &ChannelCapabilities
+    # v2_0: true
+    # ? Provided as per ref_project
+    V1_4_3: true
+    # V1_3: false
+    # V1_1: false
+  Orderer: &OrdererCapabilities
+    # v2_0: true
+    # ? Provided as per ref_project
+    V1_4_2: true
+    # V1_1: false
+  Application: &ApplicationCapabilities
+    # v2_0: true
+    # ? Provided as per ref_project
+    V1_4_2: true
+    # V1_3: false
+    # V1_2: false
+    # V1_1: false
+
+#Application
+
+Application: &ApplicationDefaults
+  Organizations:
+  # Policies defines the set of policies at this level of the config tree
+  # Fpr Application policies, their canonical path is
+  # /Channel/Application/<PolicyName>
+  Policies: &ApplicationDefaultPolicies
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+      # Rule: "MAJORITY Admins" as per the lecture
+    # As per the lecture
+    # LifecycleEndorsement:
+    #   Type: ImplicitMeta
+    #   Rule: "MAJORITY Endorsement"
+    # Endorsement:
+    #   Type: ImplicitMeta
+    #   Rule: "MAJORITY Endorsement"
+  Capabilities: #*ApplicationCapabilities assigned directly as per ref_project
+    <<: *ApplicationCapabilities
+
+#Orderer
+
+# Orderer: &OrdererDefaults
+#   OrdererType: solo
+#   Addresses:
+#     - orderer.pharma-network.com:7050
+#   BatchTimeout: 2s
+#   BatchSize:
+#     MaxMessageCount: 10
+#     AbsoluteMaxBytes: 99 MB
+#     PreferredMaxBytes: 512 KB
+#   Organizations:
+#   Capabilities: *OrdererCapabilities # not mentioned in the lecture
+#   # For Orderer policies their canonical path is
+#   # /Channel/Orderer/<PolicyName>
+#   Policies:
+#     Readers:
+#       Type: ImplicitMeta
+#       Rule: "ANY Readers"
+#     Writers:
+#       Type: ImplicitMeta
+#       Rule: "ANY Writers"
+#     Admins:
+#       Type: ImplicitMeta
+#       Rule: "MAJORITY Admins"
+#     # BlockValidation specifies what signatures must be included in the block
+#     # from the orderer for the peer to validate it.
+#     BlockValidation:
+#       Type: ImplicitMeta
+#       Rule: "ANY Writers"
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.pharma-network.com:7050
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.pharma-network.com
+        Port: 7050
+        ClientTLSCert: ../organizations/ordererOrganizations/pharma-network.com/orderers/orderer.pharma-network.com/tls/server.crt
+        ServerTLSCert: ../organizations/ordererOrganizations/pharma-network.com/orderers/orderer.pharma-network.com/tls/server.crt
+  # Batch Timeout: The amount of time to wait before creating a batch
+  BatchTimeout: 2s
+  # Batch Size: Controls the number of messages batched into a block
+  BatchSize:
+    # Max Message Count: The maximum number of messages to permit in a batch
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  # Policies defines the set of policies at this level of the config tree
+  # For Orderer policies, their canonical path is
+  #   /Channel/Orderer/<PolicyName>
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    # BlockValidation specifies what signatures must be included in the block
+    # from the orderer for the peer to validate it.
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  # For Channle policies, their canonical pais
+  #
+  Policies:
+    # Who may invoke the 'Deliver' API
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    # Who may invoke the 'Broadcast' API
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    # By default, who may modify elements at this config level
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+#Profiles
+Profiles:
+  OrdererGenesis: # Referred as CertificationOrderGenesis in lecture
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Consortiums:
+      PharmacyConsortium: # Referred as CertificationConsortium
+        Organizations:
+          - *manufacturer
+          - *distributor
+          - *retailer
+          - *consumer
+          - *transporter
+
+  PharmaChannel: # Referred as CertificationChannel in lecture
+    Consortium: PharmacyConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *manufacturer
+        - *distributor
+        - *retailer
+        - *consumer
+        - *transporter
+      Capabilities:
+        <<: *ApplicationCapabilities
